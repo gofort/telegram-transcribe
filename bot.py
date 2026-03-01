@@ -3,12 +3,9 @@ import logging
 import os
 import tempfile
 
-from dotenv import load_dotenv
 from openai import OpenAI
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters
-
-load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
