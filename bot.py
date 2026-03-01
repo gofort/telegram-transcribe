@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 import tempfile
@@ -41,12 +42,15 @@ async def handle_voice(update: Update, _) -> None:
     await update.message.reply_text(transcription.text)
 
 
-def main() -> None:
+async def main() -> None:
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_voice))
     logger.info("Bot started, polling...")
-    app.run_polling()
+    async with app:
+        await app.start()
+        await app.updater.start_polling()
+        await asyncio.Event().wait()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
